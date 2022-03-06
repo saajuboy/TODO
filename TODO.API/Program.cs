@@ -9,8 +9,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(c=>{
     c.SwaggerDoc("v1",new Microsoft.OpenApi.Models.OpenApiInfo{Title="Todo API", Version="v1"});
 });
+builder.Services.AddCors();
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -24,6 +27,8 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
     });
 }
+
+app.UseCors(x=>x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseHttpsRedirection();
 
