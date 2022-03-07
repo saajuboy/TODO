@@ -24,6 +24,32 @@ namespace TODO.API.Data.Repository
            .OrderByDescending(u => u.Date)
            .AsQueryable();
 
+            // All filters
+            // users = users.Where(u => u.Id != userParams.UserId);
+
+            // users = users.Where(u => u.Gender == userParams.Gender);
+
+            // if (userParams.MinAge != 18 || userParams.MaxAge != 99)
+            // {
+
+            //     var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+            //     var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
+
+            //     users = users.Where(u => (u.DateOfBirth >= minDob) && (u.DateOfBirth <= maxDob));
+            // }
+
+            // if (!string.IsNullOrEmpty(userParams.OrderBy))
+            // {
+            //     switch (userParams.OrderBy)
+            //     {
+            //         case "created":
+            //             users = users.OrderByDescending(u => u.Created);
+            //             break;
+            //         default:
+            //             users = users.OrderByDescending(u => u.LastActive);
+            //             break;
+            //     }
+            // }
 
             return await PagedList<NotesHeader>.CreateAsync(users, notesParam.PageNumber, notesParam.PageSize);
         }

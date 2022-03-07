@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen(c=>{
 });
 builder.Services.AddCors();
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlite("Data Source=TodoApp.db"));
-
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
 
