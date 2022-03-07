@@ -3,3 +3,5 @@
 # Compiled output
 /bin
 /obj
+
+*.db
