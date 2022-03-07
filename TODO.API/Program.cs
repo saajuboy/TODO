@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using TODO.API.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +13,7 @@ builder.Services.AddSwaggerGen(c=>{
     c.SwaggerDoc("v1",new Microsoft.OpenApi.Models.OpenApiInfo{Title="Todo API", Version="v1"});
 });
 builder.Services.AddCors();
+builder.Services.AddDbContext<DataContext>(x => x.UseSqlite("Data Source=TodoApp.db"));
 
 var app = builder.Build();
 
