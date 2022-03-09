@@ -30,6 +30,7 @@ namespace TODO.API.Manager
 
         public async Task<NoteDto> AddNote(NoteDto noteToAdd)
         {
+            //TODO validation
 
             var _noteToInsert = _Mapper.Map<NotesHeader>(noteToAdd);
             _TodoRepository.Add(_noteToInsert);
