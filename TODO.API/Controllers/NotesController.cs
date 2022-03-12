@@ -40,7 +40,7 @@ namespace TODO.API.Controllers
             }
             else
             {
-                return Ok(new NoteDto());
+                return Ok();
             }
         }
     }

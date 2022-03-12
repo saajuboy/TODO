@@ -19,39 +19,41 @@ namespace TODO.API.Data.Repository
         }
         public async Task<PagedList<NotesHeader>> GetNotes(NotesParam notesParam)
         {
-            var users = _context.NotesHeaders
+            var notes = _context.NotesHeaders
            .Include(p => p.NotesDetails)
            .OrderByDescending(u => u.Date)
            .AsQueryable();
 
-            // All filters
-            // users = users.Where(u => u.Id != userParams.UserId);
+            //All filters
+            if (notesParam.NotesId > 0)
+                notes = notes.Where(u => u.Id == notesParam.NotesId);
 
-            // users = users.Where(u => u.Gender == userParams.Gender);
+            if (notesParam.Date > DateTime.MinValue)
+                notes = notes.Where(u => u.Date == notesParam.Date);
 
-            // if (userParams.MinAge != 18 || userParams.MaxAge != 99)
+            if (notesParam.isArchived.HasValue)
+                notes = notes.Where(u => u.NotesDetails.Any(x=>x.Archived == notesParam.isArchived));
+
+            // if (!string.IsNullOrWhiteSpace(notesParam.SearchString))
             // {
-
-            //     var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
-            //     var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
-
-            //     users = users.Where(u => (u.DateOfBirth >= minDob) && (u.DateOfBirth <= maxDob));
+            //     notes = notes.Where(x=>x.NotesDetails.)
+                
             // }
 
-            // if (!string.IsNullOrEmpty(userParams.OrderBy))
-            // {
-            //     switch (userParams.OrderBy)
-            //     {
-            //         case "created":
-            //             users = users.OrderByDescending(u => u.Created);
-            //             break;
-            //         default:
-            //             users = users.OrderByDescending(u => u.LastActive);
-            //             break;
-            //     }
-            // }
+            if (!string.IsNullOrEmpty(notesParam.OrderBy))
+            {
+                switch (notesParam.OrderBy.ToLower())
+                {
+                    case "description" :
+                        notes = notes.OrderByDescending(u => u.Description);
+                        break;
+                    default:
+                        notes = notes.OrderByDescending(u => u.Date);
+                        break;
+                }
+            }
 
-            return await PagedList<NotesHeader>.CreateAsync(users, notesParam.PageNumber, notesParam.PageSize);
+            return await PagedList<NotesHeader>.CreateAsync(notes, notesParam.PageNumber, notesParam.PageSize);
         }
     }
 }

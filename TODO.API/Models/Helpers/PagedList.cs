@@ -1,8 +1,9 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace TODO.API.Models.Helpers
 {
-    public class PagedList<T>:List<T>
+    public class PagedList<T> : List<T>
     {
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
@@ -29,5 +30,15 @@ namespace TODO.API.Models.Helpers
 
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
+
+        public static PagedList<TDestination> ToMappedPagedList<TSource, TDestination>(PagedList<TSource> list, IMapper mapper)
+        {
+            List<TDestination> sourceList = mapper.Map<List<TSource>, List<TDestination>>(list);
+            PagedList<TDestination> pagedResult = new PagedList<TDestination>(sourceList,list.TotalCount,list.CurrentPage,list.PageSize);
+            return pagedResult;
+
+        }
     }
+
+
 }

@@ -23,7 +23,8 @@ namespace TODO.API.Manager
         {
             var NotesFromRepo = await _NotesRepository.GetNotes(noteParam);
 
-            var NotesToReturn = _Mapper.Map<PagedList<NoteDto>>(NotesFromRepo);
+            var NotesToReturn = PagedList<NotesHeader>.ToMappedPagedList<NotesHeader,NoteDto>(NotesFromRepo,_Mapper);
+            //  _Mapper.Map<PagedList<NoteDto>>(NotesFromRepo);
 
             return NotesToReturn;
         }
