@@ -12,9 +12,9 @@ export class AppComponent {
   testArray:any[] = [];
   constructor (private _mockService:MockService){
 
-    _mockService.getWeatherForcast().subscribe(x=>{
-      this.testArray = x;
-    });
+    // _mockService.getWeatherForcast().subscribe(x=>{
+    //   this.testArray = x;
+    // });
   }
 
 
