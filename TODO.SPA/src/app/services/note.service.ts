@@ -10,7 +10,7 @@ import { NoteParam } from '../models/note-param';
 })
 export class NoteService {
 
-  baseUrl = environment.APiUrl;
+  baseUrl = environment.APIUrl;
   constructor(private http: HttpClient) { }
 
   getNotes(noteParam?: NoteParam): Observable<Note[]> {
