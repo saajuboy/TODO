@@ -18,12 +18,16 @@ namespace TODO.API.Manager
             this._TodoRepository = todoRepository;
             this._NotesRepository = notesRepository;
         }
+        public NotesManager()
+        {
+            
+        }
 
         public async Task<PagedList<NoteDto>> GetNotes(NotesParam noteParam)
         {
             var NotesFromRepo = await _NotesRepository.GetNotes(noteParam);
 
-            var NotesToReturn = PagedList<NotesHeader>.ToMappedPagedList<NotesHeader,NoteDto>(NotesFromRepo,_Mapper);
+            var NotesToReturn = PagedList<NotesHeader>.ToMappedPagedList<NotesHeader, NoteDto>(NotesFromRepo, _Mapper);
             //  _Mapper.Map<PagedList<NoteDto>>(NotesFromRepo);
 
             return NotesToReturn;
@@ -40,6 +44,16 @@ namespace TODO.API.Manager
 
             var _noteToReturn = _Mapper.Map<NoteDto>(_noteToInsert);
             return _noteToReturn;
+        }
+
+
+        public bool ValidateNote(NoteDto noteDto)
+        {
+            bool isValid = true;
+
+            
+
+            return isValid;
         }
     }
 }

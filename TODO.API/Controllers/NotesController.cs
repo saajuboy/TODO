@@ -43,5 +43,24 @@ namespace TODO.API.Controllers
                 return Ok();
             }
         }
+
+
+        // [HttpPost]
+        // public async Task<IActionResult> InsertNote(NoteDto noteDto)
+        // {
+        //     // validate request
+
+        //     noteDto.Username = noteDto.Username.ToLower();
+
+        //     if (await _repository.UserExists(noteDto.Username))
+        //         return BadRequest("Username Already Exists");
+        //     var usertoCreate = _mapper.Map<User>(noteDto);
+
+        //     var createdUser = await _repository.Register(usertoCreate, noteDto.Password);
+
+        //     var userToReturn = _mapper.Map<UserForDetailDto>(createdUser);
+        //     return CreatedAtRoute("GetUser", new { Controller = "Users", id = createdUser.Id }, userToReturn);
+
+        // }
     }
 }
