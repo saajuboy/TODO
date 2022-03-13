@@ -29,7 +29,7 @@ namespace TODO.API.Data.Repository
                 notes = notes.Where(u => u.Id == notesParam.NotesId);
 
             if (notesParam.Date > DateTime.MinValue)
-                notes = notes.Where(u => u.Date == notesParam.Date);
+                notes = notes.Where(u => u.Date.Date == notesParam.Date.Date);
 
             if (notesParam.isArchived.HasValue)
                 notes = notes.Where(u => u.NotesDetails.Any(x => x.Archived == notesParam.isArchived));
