@@ -32,19 +32,23 @@ namespace TODO.API.Data.Repository
                 notes = notes.Where(u => u.Date == notesParam.Date);
 
             if (notesParam.isArchived.HasValue)
-                notes = notes.Where(u => u.NotesDetails.Any(x=>x.Archived == notesParam.isArchived));
+                notes = notes.Where(u => u.NotesDetails.Any(x => x.Archived == notesParam.isArchived));
 
-            // if (!string.IsNullOrWhiteSpace(notesParam.SearchString))
-            // {
-            //     notes = notes.Where(x=>x.NotesDetails.)
+            if (!string.IsNullOrWhiteSpace(notesParam.SearchString))
+            {
+                await notes.ForEachAsync(async a =>
+                {
+                    a.NotesDetails = a.NotesDetails.Where(x => x.Title.Contains(notesParam.SearchString)).ToList();
+                });
                 
-            // }
+                notes = notes.Where(x=>x.NotesDetails.Count>0);
+            }
 
             if (!string.IsNullOrEmpty(notesParam.OrderBy))
             {
                 switch (notesParam.OrderBy.ToLower())
                 {
-                    case "description" :
+                    case "description":
                         notes = notes.OrderByDescending(u => u.Description);
                         break;
                     default:
