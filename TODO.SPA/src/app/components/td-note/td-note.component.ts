@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateStruct, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { Note } from 'src/app/models/note';
 import { NoteParam } from 'src/app/models/note-param';
@@ -17,7 +17,7 @@ export class TdNoteComponent implements OnInit {
 
   model: NgbDateStruct;
   date: {year: number, month: number};
-
+searchText:string;
   constructor(private noteService: NoteService,private calendar: NgbCalendar) { }
 
   ngOnInit() {
@@ -26,7 +26,7 @@ export class TdNoteComponent implements OnInit {
     this.getNotes(_date);
   }
 
-  getNotes(date: string) {
+  getNotes(date: string,searchString?:string,isArchived?:boolean) {
     let _noteParam = new NoteParam();
     _noteParam.date = date;
     this.noteService.getNotes(_noteParam).subscribe(res => {
@@ -37,6 +37,18 @@ export class TdNoteComponent implements OnInit {
  
   selectToday() {
     this.model = this.calendar.getToday();
+  }
+
+
+  public beforeChange($event: NgbPanelChangeEvent) {
+
+    if ($event.panelId === 'assignedBoard' && $event.nextState === false) {
+      $event.preventDefault();
+    }
+
+    // if ($event.panelId === 'preventchange-3' && $event.nextState === false) {
+    //   $event.preventDefault();
+    // }
   }
 
 }
