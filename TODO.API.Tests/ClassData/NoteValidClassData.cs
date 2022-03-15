@@ -6,14 +6,11 @@ using static TODO.API.Common.Enums;
 
 namespace TODO.API.Tests.ClassData
 {
-    public class NoteValidClassData : IEnumerable<object[]>
+    public class NoteValidClassData : IEnumerable<NoteDto>
     {
-        public IEnumerator<object[]> GetEnumerator()
+        public IEnumerator<NoteDto> GetEnumerator()
         {
-            yield return new object[] {
-                new List<NoteDto>()
-                {
-                new NoteDto
+            yield return new NoteDto
                 {
                   Id=1,
                   Date= DateTime.Now,
@@ -33,8 +30,8 @@ namespace TODO.API.Tests.ClassData
                     },
                   }
                   
-                },
-                new NoteDto
+                };
+             yield return new NoteDto
                 {
                   Id=1,
                   Date= DateTime.Now.AddDays(3),
@@ -54,9 +51,9 @@ namespace TODO.API.Tests.ClassData
                     },
                   }
                   
-                },
-                }
-            };
+                };
+                // }
+            // };
         }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
