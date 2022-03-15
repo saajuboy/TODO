@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faCalendarDay, faHourglass } from '@fortawesome/free-solid-svg-icons';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { Note } from 'src/app/models/note';
@@ -18,11 +19,12 @@ export class TdNoteComponent implements OnInit {
   activeNotes:NoteDetail[] = [];
   onHoldNotes:NoteDetail[] = [];
   completedNotes:NoteDetail[] = [];
-  
+
   model: NgbDateStruct;
   searchText: string;
 
-
+_icon_calendarDays = faCalendarDay;
+_icon_search = faHourglass;
   constructor(private noteService: NoteService, private calendar: NgbCalendar) { }
 
  async ngOnInit() {
