@@ -1,37 +1,61 @@
-
 <div class="row">
   <div class="col-4">
     <div class="input-group">
-      <input class="form-control" placeholder="yyyy-mm-dd"
-             name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+      <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker
+        #d="ngbDatepicker">
       <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
     </div>
   </div>
   <div class="col-4">
     <div class="input-group">
-      <input class="form-control" placeholder="Searc here .."
-             name="search" [(ngModel)]="searchText" type="text">
-      <span class="btn btn-outline-secondary calendar" ></span>
+      <input class="form-control" placeholder="Searc here .." name="search" [(ngModel)]="searchText" type="text">
+      <span class="btn btn-outline-secondary calendar"></span>
     </div>
   </div>
 </div>
 <div class="row mt-4">
   <div class="col-3">
-  <ngb-accordion (panelChange)="beforeChange($event)" [ngbCollapse]="false"  >
-    
-    
-      <ngb-panel id="assignedBoard" title="Assigned">
-        <ng-template ngbPanelContent>
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
-          aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-          sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-          craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-          occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-          labore sustainable VHS.
-        </ng-template>
-      </ngb-panel>
-    
-  </ngb-accordion>
+    <div class="card text-center">
+      <div class="card-header">
+        Assinged
+      </div>
+      <div class="card-body">
+        <!-- for each comes here -->
+        <app-td-note-card></app-td-note-card>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="card text-center">
+      <div class="card-header bg-info">
+        Active
+      </div>
+      <div class="card-body">
+        <!-- for each comes here -->
+        <app-td-note-card></app-td-note-card>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="card text-center">
+      <div class="card-header bg-warning">
+        On hold
+      </div>
+      <div class="card-body">
+        <!-- for each comes here -->
+        <app-td-note-card></app-td-note-card>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="card text-center">
+      <div class="card-header bg-success">
+        Completed
+      </div>
+      <div class="card-body">
+        <!-- for each comes here -->
+        <app-td-note-card></app-td-note-card>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
-
