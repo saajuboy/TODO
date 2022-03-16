@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { Note } from 'src/app/models/note';
 import { NoteDetail } from 'src/app/models/note-detail';
 import { NoteParam } from 'src/app/models/note-param';
+import { _Icons } from 'src/app/models/_Icons';
 import { NoteService } from 'src/app/services/note.service';
 
 @Component({
@@ -14,28 +15,27 @@ import { NoteService } from 'src/app/services/note.service';
 })
 export class TdNoteComponent implements OnInit {
 
-  notes: Note[] = [];
-  assignedNotes:NoteDetail[] = [];
-  activeNotes:NoteDetail[] = [];
-  onHoldNotes:NoteDetail[] = [];
-  completedNotes:NoteDetail[] = [];
+  note: Note;
+  assignedNotes: NoteDetail[] = [];
+  activeNotes: NoteDetail[] = [];
+  onHoldNotes: NoteDetail[] = [];
+  completedNotes: NoteDetail[] = [];
 
   model: NgbDateStruct;
   searchText: string;
 
-_icon_calendarDays = faCalendarDay;
-_icon_search = faHourglass;
+  _icons = new _Icons();
   constructor(private noteService: NoteService, private calendar: NgbCalendar) { }
 
- async ngOnInit() {
+  async ngOnInit() {
     // let _date = moment().format('DD-YY-MM')
     let _date = moment().toISOString();
     // this.getNotes(_date);
 
-    this.notes = await this.getNote(_date);
+    this.note = await this.getNote(_date);
 
-    console.log('await response',this.notes);
-    
+    console.log('await response', this.note);
+
   }
 
   // getNotes(date: string, searchString?: string, isArchived?: boolean) {
@@ -52,14 +52,19 @@ _icon_search = faHourglass;
   }
 
 
-  async getNote(date: string, searchString?: string, isArchived?: boolean): Promise<Array<Note>> {
+  async getNote(date: string, searchString?: string, isArchived?: boolean): Promise<Note> {
     let _noteParam = new NoteParam();
     _noteParam.date = date;
-    return new Promise((resolve) => {
+    return new Promise((resolve,reject) => {
       this.noteService.getNotes(_noteParam).subscribe({
         next: (response) => {
           let _notes: Note[] = response;
-          resolve(_notes);
+          if (_notes && _notes.length > 0) {
+            resolve(_notes[0]);
+          } else {
+            reject(new Note());
+          }
+
         }
       });
     })
