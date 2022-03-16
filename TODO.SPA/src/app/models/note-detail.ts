@@ -5,5 +5,6 @@ export class NoteDetail {
     title: string;
     description: string;
     status: NoteState;
-    Archived: boolean;
+    archived: boolean;
+    noteId?:number;
 }
