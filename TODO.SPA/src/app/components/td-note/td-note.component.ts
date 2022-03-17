@@ -60,7 +60,7 @@ export class TdNoteComponent implements OnInit {
     this.note = await this.getNote(date);
     let _seperatedNotes = this.getSeperatedNotes(this.note);
 
-    console.log(_seperatedNotes);
+    // console.log(_seperatedNotes);
 
     this.assignedNotes = _seperatedNotes.assignedNotes;
     this.activeNotes = _seperatedNotes.activeNotes;
@@ -84,7 +84,7 @@ export class TdNoteComponent implements OnInit {
           if (_notes && _notes.length > 0) {
             resolve(_notes[0]);
           } else {
-            // reject(new Note());
+            resolve(new Note());
           }
 
         }
@@ -146,11 +146,11 @@ export class TdNoteComponent implements OnInit {
       );
     }
 
-    console.log(this.assignedNotes);
-    console.log(this.activeNotes);
-    console.log(this.onHoldNotes);
-    console.log(this.completedNotes);
-    console.log(this.archivedNotes);
+    // console.log(this.assignedNotes);
+    // console.log(this.activeNotes);
+    // console.log(this.onHoldNotes);
+    // console.log(this.completedNotes);
+    // console.log(this.archivedNotes);
 
   }
 
