@@ -24,13 +24,17 @@ export class TdNoteComponent implements OnInit {
   completedNotes: NoteDetail[] = [];
   archivedNotes: NoteDetail[] = [];
 
-  model: NgbDateStruct;
+  date: NgbDateStruct;
   searchText: string;
 
   _icons = new _Icons();
+
+  get getSelectedDateInIso(): string {
+    return moment(this.date.year + '-' + this.date.month + '-' + this.date.day).startOf('day').format('YYYY-MM-DDT00:00:00.000z');
+  }
   constructor(private noteService: NoteService, private calendar: NgbCalendar) { }
 
-   ngOnInit() {
+  ngOnInit() {
     this.getInitialData();
   }
 
@@ -43,12 +47,19 @@ export class TdNoteComponent implements OnInit {
   //   });
   // }
 
- async getInitialData(){
+  async getInitialData() {
+    this.selectToday()
     let _date = moment().toISOString();
-    
-    this.note = await this.getNote(_date);
+
+    this.populateNoteData(_date);
+
+    // console.log('await response', this.note);
+  }
+
+  async populateNoteData(date: string) {
+    this.note = await this.getNote(date);
     let _seperatedNotes = this.getSeperatedNotes(this.note);
-    
+
     console.log(_seperatedNotes);
 
     this.assignedNotes = _seperatedNotes.assignedNotes;
@@ -56,12 +67,10 @@ export class TdNoteComponent implements OnInit {
     this.onHoldNotes = _seperatedNotes.onHoldNotes;
     this.completedNotes = _seperatedNotes.completedNotes;
     this.archivedNotes = _seperatedNotes.archivedNotes;
-
-    // console.log('await response', this.note);
   }
 
   selectToday() {
-    this.model = this.calendar.getToday();
+    this.date = this.calendar.getToday();
   }
 
 
@@ -75,7 +84,7 @@ export class TdNoteComponent implements OnInit {
           if (_notes && _notes.length > 0) {
             resolve(_notes[0]);
           } else {
-            reject(new Note());
+            // reject(new Note());
           }
 
         }
@@ -121,6 +130,10 @@ export class TdNoteComponent implements OnInit {
     return _seperatedNoteToReturn
   }
 
+  dateChanged() {
+    this.populateNoteData(this.getSelectedDateInIso);
+  }
+
   drop(event: CdkDragDrop<NoteDetail[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -140,5 +153,5 @@ export class TdNoteComponent implements OnInit {
     console.log(this.archivedNotes);
 
   }
-  
+
 }
