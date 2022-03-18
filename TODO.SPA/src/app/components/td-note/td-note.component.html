@@ -1,4 +1,9 @@
 <div class="row">
+  <div class="col-3">
+    <div class="input-group">
+      <input class="form-control" type="text" placeholder="How is your day !!"  [(ngModel)]="note.description" >
+    </div>
+  </div>
   <div class="col-4">
     <div class="input-group">
       <input class="form-control" placeholder="yyyy-mm-dd" (dateSelect)="dateChanged()"  name="dp" [(ngModel)]="date" ngbDatepicker
@@ -16,57 +21,65 @@
       </span>
     </div>
   </div>
+  <div class="col-1">
+    <div class="input-group">
+      <button class="btn btn-primary" (click)="AddNewNoteDetail()" type="button">
+        <fa-icon [icon]="_icons.plus"></fa-icon>
+      </button>
+    </div>
+  </div>
 </div>
+
 <div cdkDropListGroup class="row mt-4">
   <div class="col-3">
     <div class="card">
-      <div class="card-header text-center">
+      <div class="card-header text-center fw-bolder">
         Assinged
       </div>
 
       <div cdkDropList [cdkDropListData]="assignedNotes" class="example-list" (cdkDropListDropped)="drop($event)"
       class="card-body cdk-list">
       <div *ngFor="let item of assignedNotes" class="cdk-item" cdkDrag>
-        <app-td-note-card></app-td-note-card>
+        <app-td-note-card [note]="item"></app-td-note-card>
       </div>
     </div>
     </div>
   </div>
   <div class="col-3">
     <div class="card ">
-      <div class="card-header  text-center bg-info">
+      <div class="card-header  text-center fw-bolder bg-info">
         Active
       </div>
       <div cdkDropList [cdkDropListData]="activeNotes" class="example-list" (cdkDropListDropped)="drop($event)"
         class="card-body cdk-list">
         <div *ngFor="let item of activeNotes" class="cdk-item" cdkDrag>
-          <app-td-note-card></app-td-note-card>
+          <app-td-note-card [note]="item"></app-td-note-card>
         </div>
       </div>
     </div>
   </div>
   <div class="col-3">
     <div class="card ">
-      <div class="card-header text-center bg-warning">
+      <div class="card-header text-center fw-bolder bg-warning">
         On hold
       </div>
       <div cdkDropList [cdkDropListData]="onHoldNotes" class="example-list" (cdkDropListDropped)="drop($event)"
         class="card-body cdk-list">
         <div *ngFor="let item of onHoldNotes" class="cdk-item" cdkDrag>
-          <app-td-note-card></app-td-note-card>
+          <app-td-note-card [note]="item"></app-td-note-card>
         </div>
       </div>
     </div>
   </div>
   <div class="col-3">
     <div class="card ">
-      <div class="card-header text-center bg-success">
+      <div class="card-header text-center fw-bolder bg-success">
         Completed
       </div>
       <div cdkDropList [cdkDropListData]="completedNotes" class="example-list" (cdkDropListDropped)="drop($event)"
         class="card-body cdk-list">
         <div *ngFor="let item of completedNotes" class="cdk-item" cdkDrag>
-          <app-td-note-card></app-td-note-card>
+          <app-td-note-card [note]="item" ></app-td-note-card>
         </div>
       </div>
     </div>

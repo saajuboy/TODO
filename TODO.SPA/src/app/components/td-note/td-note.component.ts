@@ -9,6 +9,7 @@ import { NoteState } from 'src/app/models/note-state.enum';
 import { SeperatedNotes } from 'src/app/models/seperated-notes';
 import { _Icons } from 'src/app/models/_Icons';
 import { NoteService } from 'src/app/services/note.service';
+import { Utility } from 'src/app/utility';
 
 @Component({
   selector: 'app-td-note',
@@ -84,7 +85,7 @@ export class TdNoteComponent implements OnInit {
           if (_notes && _notes.length > 0) {
             resolve(_notes[0]);
           } else {
-            resolve(new Note());
+            resolve(Utility.getDefaultNote(date));
           }
 
         }
@@ -129,6 +130,11 @@ export class TdNoteComponent implements OnInit {
 
     return _seperatedNoteToReturn
   }
+  
+  AddNewNoteDetail(){
+      let _noteDetail = Utility.getDefaultNoteDetail(this.note.id,NoteState.Assigned)
+      this.assignedNotes.push(_noteDetail);
+  }
 
   dateChanged() {
     this.populateNoteData(this.getSelectedDateInIso);
@@ -145,13 +151,7 @@ export class TdNoteComponent implements OnInit {
         event.currentIndex,
       );
     }
-
-    // console.log(this.assignedNotes);
-    // console.log(this.activeNotes);
-    // console.log(this.onHoldNotes);
-    // console.log(this.completedNotes);
-    // console.log(this.archivedNotes);
-
+    
   }
 
 }
