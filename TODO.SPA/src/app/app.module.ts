@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TdNoteComponent } from './components/td-note/td-note.component';
 import { TdNoteCardComponent } from './components/td-note-card/td-note-card.component';
+import { AlertifyService } from './services/alertify.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { TdNoteCardComponent } from './components/td-note-card/td-note-card.comp
     BrowserAnimationsModule,
     DragDropModule
   ],
-  providers: [],
+  providers: [AlertifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

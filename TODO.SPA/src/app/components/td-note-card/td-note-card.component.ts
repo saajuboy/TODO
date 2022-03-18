@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NoteDetail } from 'src/app/models/note-detail';
 import { _Icons } from 'src/app/models/_Icons';
 
@@ -9,6 +9,7 @@ import { _Icons } from 'src/app/models/_Icons';
 })
 export class TdNoteCardComponent implements OnInit {
   @Input() note: NoteDetail;
+  @Output() onDelete = new EventEmitter<NoteDetail>();
   _icons = new _Icons();
   editMode: boolean;
   constructor() { }
@@ -17,6 +18,9 @@ export class TdNoteCardComponent implements OnInit {
   }
   toggleEdit() {
     this.editMode = !this.editMode;
+  }
+  deleteNote() {
+this.onDelete.emit(this.note);
   }
 
 }

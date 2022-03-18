@@ -10,6 +10,7 @@ import { SeperatedNotes } from 'src/app/models/seperated-notes';
 import { _Icons } from 'src/app/models/_Icons';
 import { NoteService } from 'src/app/services/note.service';
 import { Utility } from 'src/app/utility';
+import { AlertifyService } from 'src/app/services/alertify.service';
 
 @Component({
   selector: 'app-td-note',
@@ -25,6 +26,7 @@ export class TdNoteComponent implements OnInit {
   completedNotes: NoteDetail[] = [];
   archivedNotes: NoteDetail[] = [];
 
+  deletedNotes: NoteDetail[] = [];
   date: NgbDateStruct;
   searchText: string;
 
@@ -33,10 +35,11 @@ export class TdNoteComponent implements OnInit {
   get getSelectedDateInIso(): string {
     return moment(this.date.year + '-' + this.date.month + '-' + this.date.day).startOf('day').format('YYYY-MM-DDT00:00:00.000z');
   }
-  constructor(private noteService: NoteService, private calendar: NgbCalendar) { }
+  constructor(private noteService: NoteService, private calendar: NgbCalendar, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.getInitialData();
+    this.alertify.success('sdafdasf')
   }
 
   // getNotes(date: string, searchString?: string, isArchived?: boolean) {
@@ -130,12 +133,52 @@ export class TdNoteComponent implements OnInit {
 
     return _seperatedNoteToReturn
   }
-  
-  AddNewNoteDetail(){
-      let _noteDetail = Utility.getDefaultNoteDetail(this.note.id,NoteState.Assigned)
-      this.assignedNotes.push(_noteDetail);
+
+  AddNewNoteDetail() {
+    let _noteDetail = Utility.getDefaultNoteDetail(this.note.id, NoteState.Assigned)
+    this.assignedNotes.push(_noteDetail);
   }
 
+  onNoteDelete(note: NoteDetail) {
+    this.deletedNotes.push(note);
+    switch (note.status) {
+      case NoteState.Assigned:
+        this.assignedNotes.splice(this.assignedNotes.indexOf(note), 1);
+        break;
+      case NoteState.Active:
+        this.activeNotes.splice(this.activeNotes.indexOf(note), 1);
+        break;
+      case NoteState.OnHold:
+        this.onHoldNotes.splice(this.onHoldNotes.indexOf(note), 1);
+        break;
+      case NoteState.Done:
+        this.completedNotes.splice(this.completedNotes.indexOf(note), 1);
+        break;
+      default:
+        break;
+    }
+
+    this.alertify.ActionUndo('Note has been deleted. UNDO', () => {
+      //call delete Function
+    }, () => {
+      switch (note.status) {
+        case NoteState.Assigned:
+          this.assignedNotes.push(note);
+          break;
+        case NoteState.Active:
+          this.activeNotes.push(note);
+          break;
+        case NoteState.OnHold:
+          this.onHoldNotes.push(note);
+          break;
+        case NoteState.Done:
+          this.completedNotes.push(note);
+          break;
+        default:
+          break;
+      }
+    });
+  }
   dateChanged() {
     this.populateNoteData(this.getSelectedDateInIso);
   }
@@ -151,7 +194,7 @@ export class TdNoteComponent implements OnInit {
         event.currentIndex,
       );
     }
-    
+
   }
 
 }
