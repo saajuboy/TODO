@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { _Icons } from 'src/app/models/_Icons';
 
 @Component({
   selector: 'app-td-note-card',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TdNoteCardComponent implements OnInit {
 
+  _icons = new _Icons();
   constructor() { }
 
   ngOnInit() {

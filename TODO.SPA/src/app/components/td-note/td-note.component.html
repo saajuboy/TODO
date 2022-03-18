@@ -19,8 +19,8 @@
 </div>
 <div cdkDropListGroup class="row mt-4">
   <div class="col-3">
-    <div class="card text-center">
-      <div class="card-header">
+    <div class="card">
+      <div class="card-header text-center">
         Assinged
       </div>
 
@@ -33,8 +33,8 @@
     </div>
   </div>
   <div class="col-3">
-    <div class="card text-center">
-      <div class="card-header bg-info">
+    <div class="card ">
+      <div class="card-header  text-center bg-info">
         Active
       </div>
       <div cdkDropList [cdkDropListData]="activeNotes" class="example-list" (cdkDropListDropped)="drop($event)"
@@ -46,8 +46,8 @@
     </div>
   </div>
   <div class="col-3">
-    <div class="card text-center">
-      <div class="card-header bg-warning">
+    <div class="card ">
+      <div class="card-header text-center bg-warning">
         On hold
       </div>
       <div cdkDropList [cdkDropListData]="onHoldNotes" class="example-list" (cdkDropListDropped)="drop($event)"
@@ -59,8 +59,8 @@
     </div>
   </div>
   <div class="col-3">
-    <div class="card text-center">
-      <div class="card-header bg-success">
+    <div class="card ">
+      <div class="card-header text-center bg-success">
         Completed
       </div>
       <div cdkDropList [cdkDropListData]="completedNotes" class="example-list" (cdkDropListDropped)="drop($event)"
