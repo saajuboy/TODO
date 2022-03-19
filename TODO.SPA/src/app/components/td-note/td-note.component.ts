@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import * as moment from 'moment';
-import { Note } from 'src/app/models/note';
-import { NoteDetail } from 'src/app/models/note-detail';
+import { Note, NoteForUpdate } from 'src/app/models/note';
+import { NoteDetail, NoteDetailForUpdate } from 'src/app/models/note-detail';
 import { NoteParam } from 'src/app/models/note-param';
 import { NoteState } from 'src/app/models/note-state.enum';
 import { SeperatedNotes } from 'src/app/models/seperated-notes';
@@ -146,12 +146,12 @@ export class TdNoteComponent implements OnInit {
 
   }
   disableAddButton() {
-    if(this.note && this.note.notesDetails){
+    if (this.note && this.note.notesDetails) {
       return this.note.notesDetails.some(x => x.id <= 0);
     }
 
     return false;
-    
+
   }
   async onNoteDelete(note: NoteDetail) {
     this.deletedNotes.push(note);
@@ -199,16 +199,23 @@ export class TdNoteComponent implements OnInit {
     });
   }
 
-  async editNote(_note: NoteDetail) {
+  async editNote(_noteDetail: NoteDetail) {
     if (this.note.id > 0) {
-      if (_note.id > 0) { //edit
-        console.log(_note);
+      if (_noteDetail.id > 0) { //edit
+        console.log(_noteDetail);
+
+        let _noteDetailForUpdate = new NoteDetailForUpdate();
+        _noteDetailForUpdate.archived = _noteDetail.archived;
+        _noteDetailForUpdate.description = _noteDetail.description;
+        _noteDetailForUpdate.status = _noteDetail.status;
+        _noteDetailForUpdate.title = _noteDetail.title;
+        this.updateNoteDetail(_noteDetail.id, _noteDetailForUpdate);
 
       } else {  //create
-        _note.id = 0;
-        _note.noteId = this.note.id;
+        _noteDetail.id = 0;
+        _noteDetail.noteId = this.note.id;
 
-        this.noteService.createNoteDetail(_note).subscribe({
+        this.noteService.createNoteDetail(_noteDetail).subscribe({
           next: (res) => {
             console.log(res);
             var index = this.note.notesDetails.findIndex(x => x.id <= 0);
@@ -269,8 +276,31 @@ export class TdNoteComponent implements OnInit {
         event.currentIndex
       );
       event.container.data[event.currentIndex].status = noteState;
+
+      let noteDetail = event.container.data[event.currentIndex];
+
+      this.editNote(noteDetail);
     }
 
+  }
+
+  updateNoteDetail(id: number, noteDetailForUpdate: NoteDetailForUpdate) {
+    this.noteService.updateNoteDetail(id, noteDetailForUpdate).subscribe((x) => {
+      this.alertify.success('Saved Changes');
+    }, (err) => {
+      this.alertify.warning('Failed to save changes');
+    })
+  }
+
+  noteTitleChanged() {
+    let noteForUpdate = new NoteForUpdate();
+    noteForUpdate.description = this.note.description;
+
+    this.noteService.updateNote(this.note.id, noteForUpdate).subscribe((x) => {
+      this.alertify.success('Saved Changes');
+    }, (err) => {
+      this.alertify.warning('Failed to save changes');
+    })
   }
 
 }

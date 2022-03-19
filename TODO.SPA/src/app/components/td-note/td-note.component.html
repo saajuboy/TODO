@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-3">
     <div class="input-group">
-      <input class="form-control" [value]="note?.description" type="text" placeholder="How is your day !!"  [(ngModel)]="note.description" >
+      <input class="form-control" (change)="noteTitleChanged()" [value]="note?.description" type="text" placeholder="How is your day !!"  [(ngModel)]="note.description" >
     </div>
   </div>
   <div class="col-4">

@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Note } from '../models/note';
-import { NoteDetail } from '../models/note-detail';
+import { Note, NoteForUpdate } from '../models/note';
+import { NoteDetail, NoteDetailForUpdate } from '../models/note-detail';
 import { NoteParam } from '../models/note-param';
 
 @Injectable({
@@ -42,7 +42,7 @@ export class NoteService {
     }
 
 
-    return this.http.get<Note[]>(this.baseUrl + 'Notes', { observe:'body',  params });
+    return this.http.get<Note[]>(this.baseUrl + 'Notes', { observe: 'body', params });
   }
 
   getNote(id: number): Observable<Note> {
@@ -53,12 +53,20 @@ export class NoteService {
     return this.http.delete(this.baseUrl + 'Notes/Detail/' + noteDetaild);
   }
 
-  createNote(note: Note) :Observable<Note>{
+  createNote(note: Note): Observable<Note> {
     return this.http.post<Note>(this.baseUrl + 'Notes', note);
   }
-  
-  createNoteDetail(noteDetail: NoteDetail):Observable<NoteDetail> {
+
+  createNoteDetail(noteDetail: NoteDetail): Observable<NoteDetail> {
     return this.http.post<NoteDetail>(this.baseUrl + 'Notes/Detail', noteDetail);
+  }
+
+  updateNote(id: number, note: NoteForUpdate) {
+    return this.http.put(this.baseUrl + 'Notes/' + id, note);
+  }
+
+  updateNoteDetail(id: number, noteDetail: NoteDetailForUpdate) {
+    return this.http.put(this.baseUrl + 'Notes/Detail/' + id, noteDetail);
   }
 
 }

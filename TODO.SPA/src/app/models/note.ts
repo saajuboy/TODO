@@ -6,3 +6,7 @@ export class Note {
     description:string = '';
     notesDetails:NoteDetail[];
 }
+
+export class NoteForUpdate{
+    description:string;
+}

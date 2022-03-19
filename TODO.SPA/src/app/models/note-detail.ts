@@ -8,3 +8,10 @@ export class NoteDetail {
     archived: boolean;
     noteId?:number;
 }
+
+export class NoteDetailForUpdate{
+    title: string;
+    description: string;
+    status: NoteState;
+    archived: boolean;
+}
