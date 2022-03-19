@@ -91,7 +91,6 @@ namespace TODO.API.Manager
             if (NoteHeaders != null && NoteHeaders.Count() > 0)
             {
                 noteDetailToCreate.NotesHeader = NoteHeaders[0];
-                noteDetailToCreate.Id = NoteHeaders[0].Id;
 
                 _TodoRepository.Add(noteDetailToCreate);
 
