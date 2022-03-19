@@ -40,8 +40,8 @@ namespace TODO.API.Data.Repository
                 {
                     a.NotesDetails = a.NotesDetails.Where(x => x.Title.Contains(notesParam.SearchString)).ToList();
                 });
-                
-                notes = notes.Where(x=>x.NotesDetails.Count>0);
+
+                notes = notes.Where(x => x.NotesDetails.Count > 0);
             }
 
             if (!string.IsNullOrEmpty(notesParam.OrderBy))
@@ -58,6 +58,13 @@ namespace TODO.API.Data.Repository
             }
 
             return await PagedList<NotesHeader>.CreateAsync(notes, notesParam.PageNumber, notesParam.PageSize);
+        }
+
+        public async Task<NotesDetail> GetNoteDetail(int NoteDetailid)
+        {
+            var _noteDetailToReturn = await _context.NotesDetails.FirstOrDefaultAsync(x => x.Id == NoteDetailid) ?? new NotesDetail();
+
+            return _noteDetailToReturn;
         }
     }
 }

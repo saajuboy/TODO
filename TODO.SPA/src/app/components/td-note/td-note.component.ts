@@ -29,7 +29,6 @@ export class TdNoteComponent implements OnInit {
   deletedNotes: NoteDetail[] = [];
   date: NgbDateStruct;
   searchText: string;
-
   _icons = new _Icons();
 
   get getSelectedDateInIso(): string {
@@ -106,7 +105,8 @@ export class TdNoteComponent implements OnInit {
     for (let index = 0; index < note.notesDetails.length; index++) {
       const singleNote = note.notesDetails[index];
 
-      singleNote.noteId = note.id;
+      if (!singleNote.noteId)
+        singleNote.noteId = note.id;
 
       if (singleNote.archived) {
         _seperatedNoteToReturn.archivedNotes.push(singleNote);
@@ -139,7 +139,7 @@ export class TdNoteComponent implements OnInit {
     this.assignedNotes.push(_noteDetail);
   }
 
-  onNoteDelete(note: NoteDetail) {
+  async onNoteDelete(note: NoteDetail) {
     this.deletedNotes.push(note);
     switch (note.status) {
       case NoteState.Assigned:
@@ -160,6 +160,9 @@ export class TdNoteComponent implements OnInit {
 
     this.alertify.ActionUndo('Note has been deleted. UNDO', () => {
       //call delete Function
+      if (note.id > 0) {
+        this.noteService.deleteNoteDetail(note.id).subscribe();
+      }
     }, () => {
       switch (note.status) {
         case NoteState.Assigned:
@@ -183,7 +186,7 @@ export class TdNoteComponent implements OnInit {
     this.populateNoteData(this.getSelectedDateInIso);
   }
 
-  drop(event: CdkDragDrop<NoteDetail[]>) {
+  drop(event: CdkDragDrop<NoteDetail[]>, noteState: NoteState) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -191,8 +194,9 @@ export class TdNoteComponent implements OnInit {
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex,
+        event.currentIndex
       );
+      event.container.data[event.currentIndex].status = noteState;
     }
 
   }

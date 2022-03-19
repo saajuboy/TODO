@@ -48,4 +48,8 @@ export class NoteService {
     return this.http.get<Note>(this.baseUrl + 'Notes/' + id);
   }
 
+  deleteNoteDetail(noteDetaild: number) {
+    return this.http.delete(this.baseUrl + 'Notes/Detail/' + noteDetaild);
+  }
+
 }

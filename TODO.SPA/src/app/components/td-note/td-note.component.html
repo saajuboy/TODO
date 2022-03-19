@@ -37,7 +37,7 @@
         Assinged
       </div>
 
-      <div cdkDropList [cdkDropListData]="assignedNotes" class="example-list" (cdkDropListDropped)="drop($event)"
+      <div cdkDropList [cdkDropListData]="assignedNotes" class="example-list" (cdkDropListDropped)="drop($event,0)"
       class="card-body cdk-list">
       <div *ngFor="let item of assignedNotes" class="cdk-item" cdkDrag>
         <app-td-note-card (onDelete)="onNoteDelete($event)" [note]="item"></app-td-note-card>
@@ -50,7 +50,7 @@
       <div class="card-header  text-center fw-bolder bg-info">
         Active
       </div>
-      <div cdkDropList [cdkDropListData]="activeNotes" class="example-list" (cdkDropListDropped)="drop($event)"
+      <div cdkDropList [cdkDropListData]="activeNotes" class="example-list" (cdkDropListDropped)="drop($event,1)"
         class="card-body cdk-list">
         <div *ngFor="let item of activeNotes" class="cdk-item" cdkDrag>
           <app-td-note-card (onDelete)="onNoteDelete($event)" [note]="item"></app-td-note-card>
@@ -63,7 +63,7 @@
       <div class="card-header text-center fw-bolder bg-warning">
         On hold
       </div>
-      <div cdkDropList [cdkDropListData]="onHoldNotes" class="example-list" (cdkDropListDropped)="drop($event)"
+      <div cdkDropList [cdkDropListData]="onHoldNotes" class="example-list" (cdkDropListDropped)="drop($event,2)"
         class="card-body cdk-list">
         <div *ngFor="let item of onHoldNotes" class="cdk-item" cdkDrag>
           <app-td-note-card (onDelete)="onNoteDelete($event)" [note]="item"></app-td-note-card>
@@ -76,7 +76,7 @@
       <div class="card-header text-center fw-bolder bg-success">
         Completed
       </div>
-      <div cdkDropList [cdkDropListData]="completedNotes" class="example-list" (cdkDropListDropped)="drop($event)"
+      <div cdkDropList [cdkDropListData]="completedNotes" class="example-list" (cdkDropListDropped)="drop($event,3)"
         class="card-body cdk-list">
         <div *ngFor="let item of completedNotes" class="cdk-item" cdkDrag>
           <app-td-note-card (onDelete)="onNoteDelete($event)" [note]="item" ></app-td-note-card>

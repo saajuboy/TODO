@@ -18,7 +18,7 @@ namespace TODO.API.Controllers
         }
 
         [HttpGet(Name = "GetNotes")]
-        public async Task<IActionResult> GetNotes([FromQuery]NotesParam notesParam)
+        public async Task<IActionResult> GetNotes([FromQuery] NotesParam notesParam)
         {
             var _notes = await _NotesManager.GetNotes(notesParam);
 
@@ -26,7 +26,7 @@ namespace TODO.API.Controllers
             return Ok(_notes);
         }
 
-        [HttpGet("{id}",Name = "GetNote")]
+        [HttpGet("{id}", Name = "GetNote")]
         public async Task<IActionResult> GetNoteById(int id)
         {
             NotesParam notesParam = new NotesParam();
@@ -62,5 +62,22 @@ namespace TODO.API.Controllers
         //     return CreatedAtRoute("GetUser", new { Controller = "Users", id = createdUser.Id }, userToReturn);
 
         // }
+
+
+        [HttpDelete("Detail/{id}")]
+        public async Task<IActionResult> DeleteNote(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Failed to delete the Note");
+            }
+            
+            var _result = await _NotesManager.DeleteNoteDetail(id);
+
+            if (_result)
+                return Ok();
+
+            return BadRequest("Failed to delete the Note");
+        }
     }
 }

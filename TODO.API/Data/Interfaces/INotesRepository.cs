@@ -7,5 +7,6 @@ namespace TODO.API.Data.Interfaces
     public interface INotesRepository
     {
          Task<PagedList<NotesHeader>> GetNotes(NotesParam notesParam);
+         Task<NotesDetail> GetNoteDetail(int NoteDetailid);
     }
 }

@@ -20,7 +20,7 @@ namespace TODO.API.Manager
         }
         public NotesManager()
         {
-            
+
         }
 
         public async Task<PagedList<NoteDto>> GetNotes(NotesParam noteParam)
@@ -46,12 +46,27 @@ namespace TODO.API.Manager
             return _noteToReturn;
         }
 
+        public async Task<bool> DeleteNoteDetail(int noteDetailid)
+        {
+            var _noteToDelete = await _NotesRepository.GetNoteDetail(noteDetailid);
+
+            if (_noteToDelete != null)
+            {
+                _TodoRepository.Delete(_noteToDelete);
+            }
+
+            if (await _TodoRepository.SaveAll())
+                return true;
+
+            return false;
+
+        }
 
         public bool ValidateNote(NoteDto noteDto)
         {
             bool isValid = true;
 
-            
+
 
             return isValid;
         }
