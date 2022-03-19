@@ -53,12 +53,12 @@ export class NoteService {
     return this.http.delete(this.baseUrl + 'Notes/Detail/' + noteDetaild);
   }
 
-  createNote(note: Note) {
-    return this.http.post(this.baseUrl + 'Notes', note);
+  createNote(note: Note) :Observable<Note>{
+    return this.http.post<Note>(this.baseUrl + 'Notes', note);
   }
   
-  createNoteDetail(noteDetail: NoteDetail) {
-    return this.http.post(this.baseUrl + 'Notes/Detail', noteDetail);
+  createNoteDetail(noteDetail: NoteDetail):Observable<NoteDetail> {
+    return this.http.post<NoteDetail>(this.baseUrl + 'Notes/Detail', noteDetail);
   }
 
 }

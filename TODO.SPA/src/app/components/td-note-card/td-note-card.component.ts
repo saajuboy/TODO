@@ -23,7 +23,7 @@ export class TdNoteCardComponent implements OnInit {
     this.editMode = !this.editMode;
 
     if(!this.editMode){
-      
+      this.onEditDetail.emit(this.note);
     }
   }
   deleteNote() {

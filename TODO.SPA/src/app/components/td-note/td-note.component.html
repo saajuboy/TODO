@@ -1,14 +1,14 @@
 <div class="row">
   <div class="col-3">
     <div class="input-group">
-      <input class="form-control" type="text" placeholder="How is your day !!"  [(ngModel)]="note.description" >
+      <input class="form-control" [value]="note?.description" type="text" placeholder="How is your day !!"  [(ngModel)]="note.description" >
     </div>
   </div>
   <div class="col-4">
     <div class="input-group">
       <input class="form-control" placeholder="yyyy-mm-dd" (dateSelect)="dateChanged()"  name="dp" [(ngModel)]="date" ngbDatepicker
         #d="ngbDatepicker">
-      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+      <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
         <fa-icon [icon]="_icons.calendarDays"></fa-icon>
       </button>
     </div>
@@ -23,7 +23,7 @@
   </div>
   <div class="col-1">
     <div class="input-group">
-      <button class="btn btn-primary" (click)="AddNewNoteDetail()" type="button">
+      <button class="btn btn-primary" [disabled]="disableAddButton()" (click)="AddNewNoteDetail()" type="button">
         <fa-icon [icon]="_icons.plus"></fa-icon>
       </button>
     </div>
@@ -40,7 +40,7 @@
       <div cdkDropList [cdkDropListData]="assignedNotes" class="example-list" (cdkDropListDropped)="drop($event,0)"
       class="card-body cdk-list">
       <div *ngFor="let item of assignedNotes" class="cdk-item" cdkDrag>
-        <app-td-note-card (onDelete)="onNoteDelete($event)" [note]="item"></app-td-note-card>
+        <app-td-note-card (onEditDetail)="editNote($event)" (onDelete)="onNoteDelete($event)" [note]="item"></app-td-note-card>
       </div>
     </div>
     </div>
@@ -53,7 +53,7 @@
       <div cdkDropList [cdkDropListData]="activeNotes" class="example-list" (cdkDropListDropped)="drop($event,1)"
         class="card-body cdk-list">
         <div *ngFor="let item of activeNotes" class="cdk-item" cdkDrag>
-          <app-td-note-card (onDelete)="onNoteDelete($event)" [note]="item"></app-td-note-card>
+          <app-td-note-card (onEditDetail)="editNote($event)" (onDelete)="onNoteDelete($event)" [note]="item"></app-td-note-card>
         </div>
       </div>
     </div>
@@ -66,7 +66,7 @@
       <div cdkDropList [cdkDropListData]="onHoldNotes" class="example-list" (cdkDropListDropped)="drop($event,2)"
         class="card-body cdk-list">
         <div *ngFor="let item of onHoldNotes" class="cdk-item" cdkDrag>
-          <app-td-note-card (onDelete)="onNoteDelete($event)" [note]="item"></app-td-note-card>
+          <app-td-note-card (onEditDetail)="editNote($event)" (onDelete)="onNoteDelete($event)" [note]="item"></app-td-note-card>
         </div>
       </div>
     </div>
@@ -79,7 +79,7 @@
       <div cdkDropList [cdkDropListData]="completedNotes" class="example-list" (cdkDropListDropped)="drop($event,3)"
         class="card-body cdk-list">
         <div *ngFor="let item of completedNotes" class="cdk-item" cdkDrag>
-          <app-td-note-card (onDelete)="onNoteDelete($event)" [note]="item" ></app-td-note-card>
+          <app-td-note-card (onEditDetail)="editNote($event)" (onDelete)="onNoteDelete($event)" [note]="item" ></app-td-note-card>
         </div>
       </div>
     </div>

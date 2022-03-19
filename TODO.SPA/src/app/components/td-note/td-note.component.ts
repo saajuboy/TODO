@@ -38,7 +38,8 @@ export class TdNoteComponent implements OnInit {
 
   ngOnInit() {
     this.getInitialData();
-    this.alertify.success('sdafdasf')
+    this.note = new Note();
+    // this.alertify.success('sdafdasf')
   }
 
   // getNotes(date: string, searchString?: string, isArchived?: boolean) {
@@ -61,9 +62,11 @@ export class TdNoteComponent implements OnInit {
 
   async populateNoteData(date: string) {
     this.note = await this.getNote(date);
-    let _seperatedNotes = this.getSeperatedNotes(this.note);
+    this.populateSeperatedNotes(this.note);
+  }
 
-    // console.log(_seperatedNotes);
+  populateSeperatedNotes(note: Note) {
+    let _seperatedNotes = this.getSeperatedNotes(note);
 
     this.assignedNotes = _seperatedNotes.assignedNotes;
     this.activeNotes = _seperatedNotes.activeNotes;
@@ -135,10 +138,21 @@ export class TdNoteComponent implements OnInit {
   }
 
   AddNewNoteDetail() {
-    let _noteDetail = Utility.getDefaultNoteDetail(this.note.id, NoteState.Assigned)
-    this.assignedNotes.push(_noteDetail);
-  }
+    if (!this.note.notesDetails.some(x => x.id < 0)) {
+      let _noteDetail = Utility.getDefaultNoteDetail(this.note.id, NoteState.Assigned)
+      this.assignedNotes.push(_noteDetail);
+      this.note.notesDetails.push(_noteDetail);
+    }
 
+  }
+  disableAddButton() {
+    if(this.note && this.note.notesDetails){
+      return this.note.notesDetails.some(x => x.id <= 0);
+    }
+
+    return false;
+    
+  }
   async onNoteDelete(note: NoteDetail) {
     this.deletedNotes.push(note);
     switch (note.status) {
@@ -161,7 +175,9 @@ export class TdNoteComponent implements OnInit {
     this.alertify.ActionUndo('Note has been deleted. UNDO', () => {
       //call delete Function
       if (note.id > 0) {
-        this.noteService.deleteNoteDetail(note.id).subscribe();
+        this.noteService.deleteNoteDetail(note.id).subscribe((res) => {
+          this.note.notesDetails.splice(this.note.notesDetails.indexOf(note), 1); ``
+        });
       }
     }, () => {
       switch (note.status) {
@@ -181,6 +197,62 @@ export class TdNoteComponent implements OnInit {
           break;
       }
     });
+  }
+
+  async editNote(_note: NoteDetail) {
+    if (this.note.id > 0) {
+      if (_note.id > 0) { //edit
+        console.log(_note);
+
+      } else {  //create
+        _note.id = 0;
+        _note.noteId = this.note.id;
+
+        this.noteService.createNoteDetail(_note).subscribe({
+          next: (res) => {
+            console.log(res);
+            var index = this.note.notesDetails.findIndex(x => x.id <= 0);
+            if (index > -1) {
+              this.note.notesDetails.splice(index, 1);
+            }
+            this.note.notesDetails.push(res);
+
+            this.populateSeperatedNotes(this.note);
+
+            this.alertify.success('Changes Updated');
+          },
+          error: (err) => {
+            this.alertify.error('failed to save changes');
+          }
+        });
+      }
+    } else {
+      var obj = Object.assign(new Note(), this.note);
+
+      obj.id = 0;
+      if (!obj.notesDetails) {
+        obj.notesDetails = [];
+      } else {
+        obj.notesDetails.forEach(x => { x.id = 0; x.noteId = 0; })
+      }
+
+      // _note.id = 0;
+      // _note.noteId = 0;
+
+      // obj.notesDetails.push(_note);
+
+      this.noteService.createNote(obj).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.note = res;
+          this.populateSeperatedNotes(this.note);
+          this.alertify.success('Changes Updated');
+        },
+        error: (err) => {
+          this.alertify.error('failed to save changes');
+        }
+      });
+    }
   }
   dateChanged() {
     this.populateNoteData(this.getSelectedDateInIso);
