@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Note } from '../models/note';
+import { NoteDetail } from '../models/note-detail';
 import { NoteParam } from '../models/note-param';
 
 @Injectable({
@@ -50,6 +51,14 @@ export class NoteService {
 
   deleteNoteDetail(noteDetaild: number) {
     return this.http.delete(this.baseUrl + 'Notes/Detail/' + noteDetaild);
+  }
+
+  createNote(note: Note) {
+    return this.http.post(this.baseUrl + 'Notes', note);
+  }
+  
+  createNoteDetail(noteDetail: NoteDetail) {
+    return this.http.post(this.baseUrl + 'Notes/Detail', noteDetail);
   }
 
 }

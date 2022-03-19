@@ -10,6 +10,8 @@ import { _Icons } from 'src/app/models/_Icons';
 export class TdNoteCardComponent implements OnInit {
   @Input() note: NoteDetail;
   @Output() onDelete = new EventEmitter<NoteDetail>();
+  @Output() onEditDetail = new EventEmitter<NoteDetail>();
+  
   _icons = new _Icons();
   editMode: boolean;
   constructor() { }
@@ -17,7 +19,12 @@ export class TdNoteCardComponent implements OnInit {
   ngOnInit() {
   }
   toggleEdit() {
+
     this.editMode = !this.editMode;
+
+    if(!this.editMode){
+      
+    }
   }
   deleteNote() {
     this.onDelete.emit(this.note);
