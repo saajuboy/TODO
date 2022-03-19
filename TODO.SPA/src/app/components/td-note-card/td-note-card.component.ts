@@ -9,6 +9,7 @@ import { _Icons } from 'src/app/models/_Icons';
 })
 export class TdNoteCardComponent implements OnInit {
   @Input() note: NoteDetail;
+  @Input() archived: boolean = false;
   @Output() onDelete = new EventEmitter<NoteDetail>();
   @Output() onEditDetail = new EventEmitter<NoteDetail>();
   
@@ -28,7 +29,7 @@ export class TdNoteCardComponent implements OnInit {
   }
 
   archiveNote(){
-    this.note.archived = true;
+    this.note.archived = !this.note.archived;
     this.onEditDetail.emit(this.note);
   }
   deleteNote() {

@@ -32,7 +32,14 @@ namespace TODO.API.Data.Repository
                 notes = notes.Where(u => u.Date.Date == notesParam.Date.Date);
 
             if (notesParam.isArchived.HasValue)
-                notes = notes.Where(u => u.NotesDetails.Any(x => x.Archived == notesParam.isArchived));
+            {
+                await notes.ForEachAsync(async a =>
+                                {
+                                    a.NotesDetails = a.NotesDetails.Where(x => x.Archived == notesParam.isArchived).ToList();
+                                });
+
+                notes = notes.Where(x => x.NotesDetails.Count > 0);
+            }
 
             if (!string.IsNullOrWhiteSpace(notesParam.SearchString))
             {

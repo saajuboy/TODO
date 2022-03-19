@@ -16,12 +16,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TdNoteComponent } from './components/td-note/td-note.component';
 import { TdNoteCardComponent } from './components/td-note-card/td-note-card.component';
 import { AlertifyService } from './services/alertify.service';
+import { ArchivedNotesComponent } from './components/archived-notes/archived-notes.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TdNoteComponent,
-    TdNoteCardComponent
+    TdNoteCardComponent,
+    ArchivedNotesComponent
   ],
   imports: [
     BrowserModule,
