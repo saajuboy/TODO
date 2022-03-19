@@ -13,6 +13,12 @@ namespace TODO.API.Models.Helpers
                 opt.MapFrom(src => src.NotesHeaderId);
             });
 
+            CreateMap<NoteDto, NotesHeader>();
+            CreateMap<NoteDetailDto, NotesDetail>().ForMember(dest => dest.NotesHeaderId, opt =>
+            {
+                opt.MapFrom(src => src.NoteId);
+            });
+
         }
     }
 }

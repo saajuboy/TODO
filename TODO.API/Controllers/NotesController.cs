@@ -71,13 +71,46 @@ namespace TODO.API.Controllers
             {
                 return BadRequest("Failed to delete the Note");
             }
-            
+
             var _result = await _NotesManager.DeleteNoteDetail(id);
 
             if (_result)
                 return Ok();
 
             return BadRequest("Failed to delete the Note");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNote(NoteDto noteDto)
+        {
+            if (noteDto == null)
+                return BadRequest("Empty Body");
+
+            var _result = await _NotesManager.CreateNote(noteDto);
+
+            if (_result !=null )
+            {
+                // return CreatedAtRoute("GetNote", new { _result.Id }, _result);
+                return Ok(_result) ;
+            }
+
+            return BadRequest("Could not create Note");
+        }
+
+        [HttpPost("Detail")]
+        public async Task<IActionResult> CreateNoteDetal(NoteDetailDto noteDetailDto)
+        {
+            if (noteDetailDto == null)
+                return BadRequest("Empty Body");
+
+            var _result = await _NotesManager.CreateNoteDetail(noteDetailDto);
+
+            if (_result !=null )
+            {
+                return Ok(_result) ;
+            }
+
+            return BadRequest("Could not create Note Detail");
         }
     }
 }

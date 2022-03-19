@@ -62,6 +62,49 @@ namespace TODO.API.Manager
 
         }
 
+        public async Task<NoteDto> CreateNote(NoteDto noteDto)
+        {
+            if (!ValidateNote(noteDto))
+            {
+                return null;
+            }
+
+            var noteToCreate = _Mapper.Map<NotesHeader>(noteDto);
+            _TodoRepository.Add(noteToCreate);
+
+            if (await _TodoRepository.SaveAll())
+            {
+                var noteDtoToReturn = _Mapper.Map<NoteDto>(noteToCreate);
+                return noteDtoToReturn;
+            }
+
+            return null;
+        }
+        public async Task<NoteDetailDto> CreateNoteDetail(NoteDetailDto noteDetailDto)
+        {
+
+            var noteDetailToCreate = _Mapper.Map<NotesDetail>(noteDetailDto);
+            var notesParam = new NotesParam();
+            notesParam.NotesId = noteDetailToCreate.NotesHeaderId;
+            var NoteHeaders = await _NotesRepository.GetNotes(notesParam);
+
+            if (NoteHeaders != null && NoteHeaders.Count() > 0)
+            {
+                noteDetailToCreate.NotesHeader = NoteHeaders[0];
+                noteDetailToCreate.Id = NoteHeaders[0].Id;
+
+                _TodoRepository.Add(noteDetailToCreate);
+
+                if (await _TodoRepository.SaveAll())
+                {
+                    var noteDtoToReturn = _Mapper.Map<NoteDetailDto>(noteDetailToCreate);
+                    return noteDtoToReturn;
+                }
+
+            }
+            return null;
+        }
+
         public bool ValidateNote(NoteDto noteDto)
         {
             bool isValid = true;
