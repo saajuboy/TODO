@@ -9,5 +9,6 @@ namespace TODO.API.Dtos
         public string Description { get; set; } = string.Empty;
         public NoteState Status { get; set; }
         public bool Archived { get; set; }
+        public int NoteId { get; set; }
     }
 }

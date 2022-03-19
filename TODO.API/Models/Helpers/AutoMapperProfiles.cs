@@ -8,7 +8,10 @@ namespace TODO.API.Models.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<NotesHeader, NoteDto>();
-            CreateMap<NotesDetail, NoteDetailDto>();
+            CreateMap<NotesDetail, NoteDetailDto>().ForMember(dest => dest.NoteId, opt =>
+            {
+                opt.MapFrom(src => src.NotesHeaderId);
+            });
 
         }
     }

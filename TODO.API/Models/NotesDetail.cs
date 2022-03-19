@@ -10,5 +10,6 @@ namespace TODO.API.Models
         public NoteState Status { get; set; }
         public bool Archived { get; set; }
         public NotesHeader NotesHeader { get; set; } = default!;
+        public int NotesHeaderId { get; set; }
     }
 }
