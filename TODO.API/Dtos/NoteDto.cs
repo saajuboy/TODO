@@ -7,4 +7,10 @@ namespace TODO.API.Dtos
         public string Description { get; set; } = string.Empty;
         public List<NoteDetailDto> NotesDetails { get; set; } = default!;
     }
+
+    public class NoteForUpdateDto
+    {
+        public string Description { get; set; } = string.Empty;
+    }
+
 }

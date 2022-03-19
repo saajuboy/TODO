@@ -104,6 +104,37 @@ namespace TODO.API.Manager
             return null;
         }
 
+        public async Task<bool> UpdateNote(int id, NoteForUpdateDto noteForUpdateDto)
+        {
+            var Params = new NotesParam();
+            Params.NotesId = id;
+            var noteFromRepository = await _NotesRepository.GetNotes(Params);
+
+            if (noteFromRepository != null && noteFromRepository.Count() > 0)
+            {
+                _Mapper.Map(noteForUpdateDto, noteFromRepository[0]);
+
+                if (await _TodoRepository.SaveAll())
+                    return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateNoteDetail(int id, NoteDetailForUpdateDto noteDetailForUpdateDto)
+        {
+            var noteDetailFromRepository = await _NotesRepository.GetNoteDetail(id);
+
+            if (noteDetailFromRepository.Id > 0)
+            {
+                _Mapper.Map(noteDetailForUpdateDto, noteDetailFromRepository);
+
+                if (await _TodoRepository.SaveAll())
+                    return true;
+            }
+            return false;
+        }
+
         public bool ValidateNote(NoteDto noteDto)
         {
             bool isValid = true;

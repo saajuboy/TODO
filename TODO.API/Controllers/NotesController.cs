@@ -44,26 +44,6 @@ namespace TODO.API.Controllers
             }
         }
 
-
-        // [HttpPost]
-        // public async Task<IActionResult> InsertNote(NoteDto noteDto)
-        // {
-        //     // validate request
-
-        //     noteDto.Username = noteDto.Username.ToLower();
-
-        //     if (await _repository.UserExists(noteDto.Username))
-        //         return BadRequest("Username Already Exists");
-        //     var usertoCreate = _mapper.Map<User>(noteDto);
-
-        //     var createdUser = await _repository.Register(usertoCreate, noteDto.Password);
-
-        //     var userToReturn = _mapper.Map<UserForDetailDto>(createdUser);
-        //     return CreatedAtRoute("GetUser", new { Controller = "Users", id = createdUser.Id }, userToReturn);
-
-        // }
-
-
         [HttpDelete("Detail/{id}")]
         public async Task<IActionResult> DeleteNote(int id)
         {
@@ -88,10 +68,10 @@ namespace TODO.API.Controllers
 
             var _result = await _NotesManager.CreateNote(noteDto);
 
-            if (_result !=null )
+            if (_result != null)
             {
                 // return CreatedAtRoute("GetNote", new { _result.Id }, _result);
-                return Ok(_result) ;
+                return Ok(_result);
             }
 
             return BadRequest("Could not create Note");
@@ -105,12 +85,34 @@ namespace TODO.API.Controllers
 
             var _result = await _NotesManager.CreateNoteDetail(noteDetailDto);
 
-            if (_result !=null )
+            if (_result != null)
             {
-                return Ok(_result) ;
+                return Ok(_result);
             }
 
             return BadRequest("Could not create Note Detail");
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateNote(int id, NoteForUpdateDto noteForUpdateDto)
+        {
+            var _result = await _NotesManager.UpdateNote(id,noteForUpdateDto);
+
+            if (_result)
+                return NoContent();
+
+            throw new System.Exception($"Updating note {id} failed on save");
+        }
+
+        [HttpPut("Detail/{id}")]
+        public async Task<IActionResult> UpdateNoteDetail(int id, NoteDetailForUpdateDto noteDetailForUpdateDto)
+        {
+            var _result = await _NotesManager.UpdateNoteDetail(id,noteDetailForUpdateDto);
+
+            if (_result)
+                return NoContent();
+
+            throw new System.Exception($"Updating note {id} failed on save");
         }
     }
 }
