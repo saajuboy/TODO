@@ -8,8 +8,8 @@
         <fa-icon ngbTooltip="Edit" *ngIf="!editMode" [icon]="_icons.pencil"></fa-icon>
       </button>
       &nbsp;&nbsp;
-      <button  class="btn btn-sm btn-warning col-2" type="button">
-        <fa-icon ngbTooltip="Archive" [icon]="_icons.archive"></fa-icon>
+      <button *ngIf="note.id>0"  (click)="archiveNote()" class="btn btn-sm btn-warning col-2" type="button">
+        <fa-icon ngbTooltip="Archive"  [icon]="_icons.archive"></fa-icon>
       </button>
       &nbsp;&nbsp;
       <button (click)="deleteNote()" class="btn btn-sm btn-danger col-2" type="button">

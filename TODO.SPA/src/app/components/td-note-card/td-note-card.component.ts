@@ -26,6 +26,11 @@ export class TdNoteCardComponent implements OnInit {
       this.onEditDetail.emit(this.note);
     }
   }
+
+  archiveNote(){
+    this.note.archived = true;
+    this.onEditDetail.emit(this.note);
+  }
   deleteNote() {
     this.onDelete.emit(this.note);
   }

@@ -203,13 +203,19 @@ export class TdNoteComponent implements OnInit {
     if (this.note.id > 0) {
       if (_noteDetail.id > 0) { //edit
         console.log(_noteDetail);
+        let _existingNote = this.note.notesDetails.find(x=>x.id == _noteDetail.id);
+        if(_existingNote){
+          _existingNote.archived = _noteDetail.archived;
 
+          this.populateSeperatedNotes(this.note);
+        }
         let _noteDetailForUpdate = new NoteDetailForUpdate();
         _noteDetailForUpdate.archived = _noteDetail.archived;
         _noteDetailForUpdate.description = _noteDetail.description;
         _noteDetailForUpdate.status = _noteDetail.status;
         _noteDetailForUpdate.title = _noteDetail.title;
         this.updateNoteDetail(_noteDetail.id, _noteDetailForUpdate);
+        
 
       } else {  //create
         _noteDetail.id = 0;

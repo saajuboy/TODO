@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 //components
 import { AppComponent } from './app.component';
@@ -30,7 +31,8 @@ import { AlertifyService } from './services/alertify.service';
     FormsModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
-    DragDropModule
+    DragDropModule,
+    Ng2SearchPipeModule
   ],
   providers: [AlertifyService],
   bootstrap: [AppComponent]
